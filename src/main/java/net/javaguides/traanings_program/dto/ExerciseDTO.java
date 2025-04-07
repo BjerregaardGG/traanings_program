@@ -1,6 +1,5 @@
 package net.javaguides.traanings_program.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

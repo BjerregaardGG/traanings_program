@@ -5,6 +5,7 @@ import net.javaguides.traanings_program.model.BodyPart;
 import net.javaguides.traanings_program.model.Exercise;
 import net.javaguides.traanings_program.repository.BodyPartRepo;
 import net.javaguides.traanings_program.repository.ExerciseRepo;
+import net.javaguides.traanings_program.service.interfaces.ServiceExerciseInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 // class to get exercises
 @Service
-public class ServiceExercises {
+public class ServiceExercises implements ServiceExerciseInterface {
 
     private final WebClient webClient;
     private final ExerciseRepo exerciseRepo;

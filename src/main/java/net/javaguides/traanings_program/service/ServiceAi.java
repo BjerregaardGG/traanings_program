@@ -1,12 +1,13 @@
 package net.javaguides.traanings_program.service;
 
+import net.javaguides.traanings_program.service.interfaces.ServiceAiInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class ServiceAi {
+public class ServiceAi implements ServiceAiInterface {
 
     private final WebClient webClient;
 
@@ -17,6 +18,8 @@ public class ServiceAi {
 
     @Value("${api.key.openai}")
     private String openAiKey;
+
+
 
 
 
