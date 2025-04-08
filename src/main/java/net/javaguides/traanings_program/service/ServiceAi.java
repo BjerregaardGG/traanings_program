@@ -29,17 +29,17 @@ public class ServiceAi implements ServiceAiInterface {
     private String openAiKey;
 
 
-    public PersonalizedProgram makeRequest(String systemMessage, ProgramRequestDTO program){
+    public PersonalizedProgram makeRequest(String systemMessage, String userinfo, List<String> exercises){
 
         // her laver vi request objektet
         ChatRequest chatRequest = new ChatRequest();
         chatRequest.setModel("gpt-4");
         chatRequest.setTemperature(1.0);
-        chatRequest.setMaxTokens(600);
+        chatRequest.setMaxTokens(800);
 
         List<Message> lstMessages = new ArrayList<>(); //en liste af messages med roller
         lstMessages.add(new Message("system", systemMessage));
-        lstMessages.add(new Message("user", program.getBrugerData()));
+        lstMessages.add(new Message("user", "Userinfo: " + userinfo + "Exercises:" + exercises));
         chatRequest.setMessages(lstMessages);
 
         // her sender vi en request og gemmer det i response

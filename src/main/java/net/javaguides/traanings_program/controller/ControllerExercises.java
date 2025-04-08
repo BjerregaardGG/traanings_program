@@ -21,10 +21,15 @@ public class ControllerExercises {
 
     @Autowired
     ServiceExercises serviceExercises;
+
+    @Autowired
     ServiceAi serviceAi;
 
     final static String SYSTEM_MESSAGE = "You are a personal trainer, who is a professionel when it comes to generating personalized " +
-            "training programs. Generate a very simpel program split based on the the user info and favorite exercises";
+            "training programs. Generate a very simple split based program on the the user info and favorite exercises" +
+            ".You should still add more exercises even if the user has only chosen a few. Keep in mind the user info, such as:" +
+            "'mål, træningsniveau, træningslængde, skader, træningsniveau' when you make the program. You should present the program" +
+            "directly to the user";
 
     @GetMapping("")
     public ResponseEntity<List<Exercise>> getExercises(){
@@ -41,10 +46,14 @@ public class ControllerExercises {
     @PostMapping("/program")
     public ResponseEntity<PersonalizedProgram> postAndGetProgram(@RequestBody ProgramRequestDTO program){
 
-        ProgramRequestDTO pro = program;
+        String promptUserinfo = program.getBrugerData();
+        List<String> exerciseList = program.getExercises();
         String systemMessage = SYSTEM_MESSAGE;
 
-        PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, pro);
+        System.out.println(promptUserinfo);
+        System.out.println(exerciseList);
+
+        PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, promptUserinfo, exerciseList);
 
         return ResponseEntity.ok(personalizedProgram);
 
