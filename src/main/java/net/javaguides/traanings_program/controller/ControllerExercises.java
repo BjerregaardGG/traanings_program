@@ -28,8 +28,9 @@ public class ControllerExercises {
     final static String SYSTEM_MESSAGE = "You are a personal trainer, who is a professionel when it comes to generating personalized " +
             "training programs. Generate a very simple split based program on the the user info and favorite exercises" +
             ".You should still add more exercises even if the user has only chosen a few. Keep in mind the user info, such as:" +
-            "'mål, træningsniveau, træningslængde, skader, træningsniveau' when you make the program. You should present the program" +
-            "directly to the user";
+            "'mål, træningsniveau, træningslængde, skader, træningsniveau' when you make the program. " +
+            "You should not do an intro or ending but only present the training program for each day of the week and not repeat " +
+            "the same split." + "You should present the program directly to the user in professional english";
 
     @GetMapping("")
     public ResponseEntity<List<Exercise>> getExercises(){

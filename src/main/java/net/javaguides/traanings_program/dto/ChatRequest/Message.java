@@ -10,13 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "role",
-    "content"
-})
-@Generated("jsonschema2pojo")
+@Getter
+@Setter
 public class Message {
 
     @JsonProperty("role")
@@ -29,36 +27,6 @@ public class Message {
     public Message(String role, String content){
         this.role = role;
         this.content = content;
-    }
-
-    @JsonProperty("role")
-    public String getRole() {
-        return role;
-    }
-
-    @JsonProperty("role")
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @JsonProperty("content")
-    public String getContent() {
-        return content;
-    }
-
-    @JsonProperty("content")
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }
