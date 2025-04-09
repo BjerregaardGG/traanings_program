@@ -3,7 +3,6 @@ package net.javaguides.traanings_program.controller;
 import net.javaguides.traanings_program.dto.ExerciseDTO;
 import net.javaguides.traanings_program.dto.PersonalizedProgram;
 import net.javaguides.traanings_program.dto.ProgramRequestDTO;
-import net.javaguides.traanings_program.model.BodyPart;
 import net.javaguides.traanings_program.model.Exercise;
 import net.javaguides.traanings_program.service.ServiceAi;
 import net.javaguides.traanings_program.service.ServiceExercises;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -30,7 +28,8 @@ public class ControllerExercises {
             ".You should still add more exercises even if the user has only chosen a few. Keep in mind the user info, such as:" +
             "'mål, træningsniveau, træningslængde, skader, træningsniveau' when you make the program. " +
             "You should not do an intro or ending but only present the training program for each day of the week and not repeat " +
-            "the same split." + "You should present the program directly to the user in professional english";
+            "the same split." + "You should present the program directly to the user in professional english and start each day with " +
+            "Day 1 (and muscle group), Day 2 (and muscle group) etc. You should name all 7 week Days even though it is a rest day";
 
     @GetMapping("")
     public ResponseEntity<List<Exercise>> getExercises(){
@@ -57,8 +56,10 @@ public class ControllerExercises {
         PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, promptUserinfo, exerciseList);
 
         return ResponseEntity.ok(personalizedProgram);
-
-
     }
+
+    /*@GetMapping("/instructions/{name}")
+    public ResponseEntity<List<String>> getInstructionsForExercise(@PathVariable String name){
+    }*/
 
 }

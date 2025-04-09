@@ -37,7 +37,7 @@ public class ServiceExercises implements ServiceExerciseInterface {
     @Value("${api.key.exercises}")
     private String apiKeyExercises;
 
-    // fetch exercises
+    // fetch exercises - gemmes i databasen, derfor ikke DTO'er
     public List<Exercise> fetchExercises(){
         List<ExerciseDTO> exercisesDTOS = webClient.get()
                 .uri("https://exercisedb.p.rapidapi.com/exercises?limit=200")
@@ -69,6 +69,8 @@ public class ServiceExercises implements ServiceExerciseInterface {
                 exercise.setTarget(exerciseDTO.getTarget());
                 exercise.setGifUrl(exerciseDTO.getGifUrl());
                 exercise.setEquipment(exerciseDTO.getEquipment());
+                exercise.setSecondaryMuscles(exerciseDTO.getSecondaryMuscles());
+                exercise.setInstructions(exerciseDTO.getInstructions());
 
                 exerciseRepo.save(exercise); // Gem Exercise i databasen
                 exerciseList.add(exercise);
@@ -87,7 +89,9 @@ public class ServiceExercises implements ServiceExerciseInterface {
                         e.getBodyPart().getName(),
                         e.getEquipment(),
                         e.getGifUrl(),
-                        e.getTarget()))
+                        e.getTarget(),
+                        e.getSecondaryMuscles(),
+                        e.getInstructions()))
                 .collect(Collectors.toList());
 
     }
