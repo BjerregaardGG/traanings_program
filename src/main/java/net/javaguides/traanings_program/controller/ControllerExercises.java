@@ -1,5 +1,6 @@
 package net.javaguides.traanings_program.controller;
 
+import net.javaguides.traanings_program.dto.ChatBotAnswer;
 import net.javaguides.traanings_program.dto.ExerciseDTO;
 import net.javaguides.traanings_program.dto.PersonalizedProgram;
 import net.javaguides.traanings_program.dto.ProgramRequestDTO;
@@ -31,6 +32,10 @@ public class ControllerExercises {
             "the same split." + "You should present the program directly to the user in professional english and start each day with " +
             "Day 1 (and muscle group), Day 2 (and muscle group) etc. You should name all 7 week Days even though it is a rest day";
 
+    final static String SYSTEM_MESSAGE_CHATBOT = "You have to answer training related questions in a short format. " +
+            "If asked about stuff that is not related to any training specific topic, please inform the user that you only answer" +
+            "training related questions";
+
     @GetMapping("")
     public ResponseEntity<List<Exercise>> getExercises(){
         List<Exercise> exercises = serviceExercises.fetchExercises();
@@ -56,6 +61,14 @@ public class ControllerExercises {
         PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, promptUserinfo, exerciseList);
 
         return ResponseEntity.ok(personalizedProgram);
+    }
+
+    @PostMapping("/chatbot")
+    public ResponseEntity<ChatBotAnswer> postAndGetChatBotAnswer(@RequestBody String question){
+
+        ChatBotAnswer answer = serviceAi.askChatBot(question, SYSTEM_MESSAGE_CHATBOT);
+
+        return ResponseEntity.ok(answer);
     }
 
     /*@GetMapping("/instructions/{name}")
