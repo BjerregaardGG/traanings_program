@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+// The Program Request object that gets sent from the frontend in the postAndGetProgram controller method
 public class ProgramRequestDTO {
 
     private String brugerData;

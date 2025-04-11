@@ -9,13 +9,11 @@ import net.javaguides.traanings_program.service.interfaces.ServiceExerciseInterf
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -79,6 +77,7 @@ public class ServiceExercises implements ServiceExerciseInterface {
         return exerciseList;
     }
 
+    // get exercises based on bodypart - retunrns DTO's
     public List<ExerciseDTO> getExercisesByBodyPart(String bodyPartName){
 
         BodyPart bodyPart = bodyPartRepo.findBodyPartByName(bodyPartName);

@@ -8,6 +8,7 @@ import net.javaguides.traanings_program.model.Exercise;
 import net.javaguides.traanings_program.service.ServiceAi;
 import net.javaguides.traanings_program.service.ServiceExercises;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,43 +37,75 @@ public class ControllerExercises {
             "If asked about stuff that is not related to any training specific topic, please inform the user that you only answer" +
             "training related questions";
 
+    // fetches all exercises from an extern API and maps them to the database
     @GetMapping("")
     public ResponseEntity<List<Exercise>> getExercises(){
-        List<Exercise> exercises = serviceExercises.fetchExercises();
-        return ResponseEntity.ok(exercises);
+        try {
+            List<Exercise> exercises = serviceExercises.fetchExercises();
+            return ResponseEntity.ok(exercises);
+
+        }catch(Exception e){
+            e.printStackTrace(); // Eller brug en logger
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
     }
 
+    // fetches exercises based on bodyPart
     @GetMapping("/bodyPart/{bodyPart}")
     public ResponseEntity<List<ExerciseDTO>> getExercisesByBodyPart(@PathVariable String bodyPart){
-        List<ExerciseDTO> exercises = serviceExercises.getExercisesByBodyPart(bodyPart);
-        return ResponseEntity.ok(exercises);
+        try {
+            List<ExerciseDTO> exercises = serviceExercises.getExercisesByBodyPart(bodyPart);
+            return ResponseEntity.ok(exercises);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
+    // sends user info & favorite exercises and returns a personal training program
     @PostMapping("/program")
-    public ResponseEntity<PersonalizedProgram> postAndGetProgram(@RequestBody ProgramRequestDTO program){
+    public ResponseEntity<?> postAndGetProgram(@RequestBody ProgramRequestDTO program){
 
-        String promptUserinfo = program.getBrugerData();
-        List<String> exerciseList = program.getExercises();
-        String systemMessage = SYSTEM_MESSAGE;
+        try {
+            String promptUserinfo = program.getBrugerData();
+            List<String> exerciseList = program.getExercises();
+            String systemMessage = SYSTEM_MESSAGE;
 
-        System.out.println(promptUserinfo);
-        System.out.println(exerciseList);
+            System.out.println(promptUserinfo);
+            System.out.println(exerciseList);
 
-        PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, promptUserinfo, exerciseList);
+            PersonalizedProgram personalizedProgram = serviceAi.makeRequest(systemMessage, promptUserinfo, exerciseList);
 
-        return ResponseEntity.ok(personalizedProgram);
+            return ResponseEntity.ok(personalizedProgram);
+
+        } catch (IllegalArgumentException e) {
+
+            return ResponseEntity.badRequest().body("Forkert eller manglende data: " + e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
+    // sends a training related question and returns an answer
     @PostMapping("/chatbot")
-    public ResponseEntity<ChatBotAnswer> postAndGetChatBotAnswer(@RequestBody String question){
+    public ResponseEntity<?> postAndGetChatBotAnswer(@RequestBody String question) {
 
-        ChatBotAnswer answer = serviceAi.askChatBot(question, SYSTEM_MESSAGE_CHATBOT);
+        try {
+            ChatBotAnswer answer = serviceAi.askChatBot(question, SYSTEM_MESSAGE_CHATBOT);
 
-        return ResponseEntity.ok(answer);
+            return ResponseEntity.ok(answer);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Forkert eller manglende data: " + e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
-    /*@GetMapping("/instructions/{name}")
-    public ResponseEntity<List<String>> getInstructionsForExercise(@PathVariable String name){
-    }*/
 
 }

@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
+// DTO for Personalized Program
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonalizedProgram {
 

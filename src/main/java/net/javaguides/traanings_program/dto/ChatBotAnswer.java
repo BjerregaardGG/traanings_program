@@ -10,6 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
+
+// DTO for chatBot answer
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatBotAnswer {
 

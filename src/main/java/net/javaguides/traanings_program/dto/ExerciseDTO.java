@@ -11,6 +11,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
+// Exercise DTO for Exercises entity
 public class ExerciseDTO {
     private String name;
     private String bodyPart;

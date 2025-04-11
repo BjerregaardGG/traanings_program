@@ -31,6 +31,7 @@ public class ServiceAi implements ServiceAiInterface {
     private String openAiKey;
 
 
+    // method that makes and CHATGPT request and returns a personal program
     public PersonalizedProgram makeRequest(String systemMessage, String userinfo, List<String> exercises){
 
         // her laver vi request objektet
@@ -53,11 +54,14 @@ public class ServiceAi implements ServiceAiInterface {
                 .bodyToMono(ChatResponse.class) // konverterer HTTP response til et Java objekt
                 .block(); // hvis ikke block, så ville det være et mono objekt
 
+        // the chatGPT response
         String responseMessage = response.getChoices().get(0).getMessage().getContent();
 
         return new PersonalizedProgram(responseMessage);
     }
 
+
+    // method that makes and CHATGPT request and returns a training related answer
     public ChatBotAnswer askChatBot(String question, String systemMessage){
 
         String responseMessage = "";
