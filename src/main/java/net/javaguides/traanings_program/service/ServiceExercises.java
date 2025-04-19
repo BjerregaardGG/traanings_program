@@ -22,7 +22,11 @@ import java.util.stream.Collectors;
 public class ServiceExercises implements ServiceExerciseInterface {
 
     private final WebClient webClient;
+
+    @Autowired
     private final ExerciseRepo exerciseRepo;
+
+    @Autowired
     private final BodyPartRepo bodyPartRepo;
 
     @Autowired

@@ -21,6 +21,7 @@ public class Exercise {
     private String gifUrl;
     private String target;
 
+    // entitet med liste af værdier (ikke behov for at identificere liste elementerne som egne entiteter)
     @ElementCollection
     private List<String> secondaryMuscles;
 
